@@ -27,6 +27,9 @@ jobs:
     - run: npm ci
     - run: npm run build --if-present
 
+    - name: Install nodemailer
+      run: npm install nodemaile
+        
     - name: Setup Python
       uses: actions/setup-python@v2
       with:
