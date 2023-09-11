@@ -32,7 +32,7 @@ jobs:
       with:
          to: ${{ secrets.MAIL_TO }}
          from: Relevate <smtp.office365.com>
-         subject: ${{ react-deploy.repository }} ${{nodejs.workflow}} ${{ job.status }}
+         subject: ${{ react-deploy.repository }} ${{react-deploy.workflow}} ${{ job.status }}
          priority: high
          convert_markdown: true
          html_body: |
