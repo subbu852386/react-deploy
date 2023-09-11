@@ -1,3 +1,6 @@
+# This workflow will do a clean installation of node dependencies, cache/restore them, build the source code and run tests across different versions of node
+# For more information see: https://help.github.com/actions/language-and-framework-guides/using-nodejs-with-github-actions
+
 name: Node.js CI/CD
 
 on:
@@ -24,47 +27,16 @@ jobs:
     - run: npm ci
     - run: npm run build --if-present
 
-    - name: Set up Node.js
-      uses: actions/setup-node@v2
-      with:
-        node-version: 16
+    - name: Send mail
+        if: always()
+        uses: https://github.com/subbu852386/actions/checkout@v2
+        with:
+            to: ${{ secrets.MAIL_TO }}
+            from: Relevate <smtp.office365.com>
+            subject: ${{ ele.repository }} ${{ele.workflow}} ${{ job.status }}
+            priority: high
+             convert_markdown: true
+             html_body: |
+               ### Job ${{ job.status }}
 
- 
-
-    - name: Install nodemailer
-      run: npm install nodemailer
-
- 
-
-    - name: Send email notification
-      run: |
-        const nodemailer = require('nodemailer')
-
- 
-
-          const transporter = nodemailer.createTransport({
-            service: 'YOUR_EMAIL_SERVICE', // e.g., 'Gmail' or 'Outlook'
-            auth: {
-              user: ${{ secrets.EMAIL_USERNAME }},
-              pass: ${{ secrets.EMAIL_PASSWORD }}
-            },
-          });
-
- 
-
-          const message = {
-            from: 'your-email@gmail.com',
-            to: 'recipient@example.com',
-            subject: 'GitHub Actions Workflow Completed',
-            text: 'Your GitHub Actions workflow has completed successfully.',
-          };
-
- 
-
-          transporter.sendMail(message, (error, info) => {
-            if (error) {
-              console.error('Error sending email:', error);
-            } else {
-              console.log('Email sent:', info.response);
-            }
-          });
+               ${{ github.repository }}: [${{ github.ref }}@${{ github.sha }}](${{ github.server_url }}/${{ github.repository }}/actions)
