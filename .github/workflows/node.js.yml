@@ -38,7 +38,7 @@ jobs:
 
     - name: Send email notification
       run: |
-        const nodemailer = require('nodemailer');
+        const nodemailer = require('nodemailer')
 
  
 
